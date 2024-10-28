@@ -2,6 +2,8 @@ use std::path::PathBuf;
 use clap::Parser;
 use std::fs;
 
+mod commands;
+
 #[derive(Parser, Debug)]
 pub struct Args {
     #[arg(short, long)]
@@ -38,5 +40,11 @@ pub fn get_mode() -> String {
 }
 
 fn main() {
-    println!("{:?}, {}", get_game_absolute_path(), get_mode());
+    match get_mode().as_str() {
+        "wine" => commands::wine::run_game(get_game_absolute_path()),
+        "native" => commands::native::run_game(get_game_absolute_path()),
+        "pcsx2" => commands::pcsx2::run_game(get_game_absolute_path()),
+        "cemu" => commands::cemu::run_game(get_game_absolute_path()),
+        _ => eprintln!("Invalid mode"),
+    }
 }
