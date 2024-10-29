@@ -6,7 +6,6 @@ mod args;
 mod add_game;
 mod config;
 mod data;
-mod launcher;
 
 fn main() {
     let args = get_args();
@@ -28,7 +27,7 @@ fn main() {
     let (runner_name, game_iso_path) = data::get_game_details(game_path);
     let (runner_command, runner_args) = data::get_runner_details(runner_name, &local_share_path);
 
-    launcher::run_game(game_iso_path, runner_command, runner_args);
+    run_game(game_iso_path, runner_command, runner_args);
 }
 
 pub fn run_game(game_path: String, runner_command: String, runner_args: Vec<String>) {
