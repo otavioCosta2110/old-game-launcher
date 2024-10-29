@@ -19,6 +19,7 @@ fn main() {
         println!("Game added successfully.");
         return;
     }
+
     let local_share_path = config::initialize_directories();
     let games_map = data::load_games_map(&local_share_path);
     let game_selected = data::select_game(&games_map);
@@ -34,7 +35,8 @@ pub fn run_game(game_path: String, runner_command: String, runner_args: Vec<Stri
 
     // if the runner command is empty, run the game directly
     if runner_command == "" {
-        Command::new(game_path)
+        Command::new("gamemoderun")
+            .arg(game_path)
             .spawn()
             .expect("Failed to run game");
         return;
