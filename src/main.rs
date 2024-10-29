@@ -1,42 +1,51 @@
-use std::path::PathBuf;
-use clap::Parser;
-use std::fs;
+use args::get_args;
+use add_game::add_game;
+use std::process::Command;
 
-#[derive(Parser, Debug)]
-pub struct Args {
-    #[arg(short, long)]
-    pub game: PathBuf,
-    #[arg(short, long)]
-    pub mode: String,
-}
-
-pub fn get_args() -> Args {
-    Args::parse()
-}
-
-pub fn get_game_path_buf() -> PathBuf {
-    let arg = Args::parse();
-    arg.game
-}
-
-pub fn get_game_absolute_path() -> PathBuf {
-    let game_path = get_game_path_buf();
-    fs::canonicalize(game_path).unwrap_or_else(|_| {
-        eprintln!("Error resolving absolute path");
-        PathBuf::new()
-    })
-}
-
-pub fn get_game_string() -> String {
-    let arg = Args::parse();
-    arg.game.to_str().unwrap().to_string()
-}
-
-pub fn get_mode() -> String {
-    let arg = Args::parse();
-    arg.mode
-}
+mod args;
+mod add_game;
+mod config;
+mod data;
 
 fn main() {
-    println!("{:?}, {}", get_game_absolute_path(), get_mode());
+    let args = get_args();
+
+    if args.add_mode {
+        let name = args.name.expect("Game name is required in add mode");
+        let runner = args.runner.expect("Runner is required in add mode");
+        let path = args.path.expect("Path is required in add mode");
+
+        add_game(name, path, runner);
+        println!("Game added successfully.");
+        return;
+    }
+
+    let local_share_path = config::initialize_directories();
+    let games_map = data::load_games_map(&local_share_path);
+    let game_selected = data::select_game(&games_map);
+
+    let game_path = games_map.get(&game_selected).expect("Game path not found");
+    let (runner_name, game_iso_path) = data::get_game_details(game_path);
+    let (runner_command, runner_args) = data::get_runner_details(runner_name, &local_share_path);
+
+    run_game(game_iso_path, runner_command, runner_args);
+}
+
+pub fn run_game(game_path: String, runner_command: String, runner_args: Vec<String>) {
+
+    // if the runner command is empty, run the game directly
+    if runner_command == "" {
+        Command::new("gamemoderun")
+            .arg(game_path)
+            .spawn()
+            .expect("Failed to run game");
+        return;
+    }
+
+    Command::new("gamemoderun")
+        .arg(runner_command)
+        .args(runner_args)
+        .arg(game_path)
+        .spawn()
+        .expect("Failed to run game");
 }
