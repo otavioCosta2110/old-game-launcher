@@ -1,9 +1,7 @@
 [x] have somewhere to store the game json (or other markup language) info
 [x] runner json:
 [x] game json:
-[ ] refactor ;-;
-[ ] have an "interface" to launch the games (pbbly fuzzy finder)
+[x] have an "interface" to launch the games (pbbly fuzzy finder)
 [ ] launch games with gamemode
+[ ] steam
 [ ] sort by recently played
-[ ] make custom modes possible
-[ ] more options for the modes
