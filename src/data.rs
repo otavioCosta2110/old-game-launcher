@@ -32,7 +32,6 @@ pub fn select_game(games_map: &HashMap<String, String>) -> String {
         std::process::exit(1);
     }
 
-    // Instantiate `fzf` just before retrieving output
     let mut fzf = Fzf::default();
     fzf.run().expect("Failed to start fzf");
     fzf.add_items(game_names).expect("Failed to add items to fzf");
@@ -67,5 +66,9 @@ pub fn get_runner_details(runner_name: String, local_share_path: &PathBuf) -> (S
         .unwrap_or_default();
 
     (runner_command, runner_args)
+}
+
+pub fn get_games_path(local_share_path: PathBuf) -> PathBuf {
+    local_share_path.join("games")
 }
 
