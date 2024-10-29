@@ -1,5 +1,6 @@
 {
   "name": "cemu",
   "command": "cemu",
-  "args": []
+  "args": ["-g"]
 }
+

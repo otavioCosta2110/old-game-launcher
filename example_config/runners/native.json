@@ -1,3 +1,5 @@
 {
-  "command": "$1"
+  "name": "native",
+  "command": ""
 }
+
