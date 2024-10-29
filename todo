@@ -1,21 +1,7 @@
 [x] have somewhere to store the game json (or other markup language) info
-[ ] example game json:
-  {
-    "name": "pcsx2",
-    "command": "pcsx2",
-    "args": [
-      "arg1",
-      "arg2"
-    ]
-  }
-
-[ ] example game json:
-  {
-    "name": "show de bola",
-    "runner": "pcsx2",
-    "path": "/home/otavio/games/ps2/God of War.iso"
-  }
-
+[x] runner json:
+[x] game json:
+[ ] refactor ;-;
 [ ] have an "interface" to launch the games (pbbly fuzzy finder)
 [ ] launch games with gamemode
 [ ] sort by recently played
