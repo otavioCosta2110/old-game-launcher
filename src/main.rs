@@ -33,17 +33,14 @@ fn main() {
 
 pub fn run_game(game_path: String, runner_command: String, runner_args: Vec<String>) {
 
-    // if the runner command is empty, run the game directly
     if runner_command == "" {
-        Command::new("gamemoderun")
-            .arg(game_path)
+        Command::new(game_path)
             .spawn()
             .expect("Failed to run game");
         return;
     }
 
-    Command::new("gamemoderun")
-        .arg(runner_command)
+    Command::new(runner_command)
         .args(runner_args)
         .arg(game_path)
         .spawn()
